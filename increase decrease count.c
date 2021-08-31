@@ -48,3 +48,5 @@ int main ()
         printf("number of decreasing steps : %d",decreasing);
     }
 }
+
+
