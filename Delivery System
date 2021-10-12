@@ -1,0 +1,293 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+#include<time.h>
+#define MAX 100
+
+void firstplanprint(void);
+void Couriersmenuprint(void);
+void Ordersmenuprint(void);
+void exitmenuprint(void);
+int addCouriersmenuprint(void);
+void RemoveCouriersmenuprint(void);
+int ActivateCouriersmenuprint(void);
+int DeactivateCouriersmenuprint(void);
+int StartOrdersmenuprint(void);
+void StopOrdersmenuprint(void);
+void ListOrdersmenuprint(void);
+void Resultsmenuprint(void);
+void Profitprint(void);
+void OrdersPerCouriersprint(void);
+long long int identities [MAX],phones[MAX],status [MAX],phone[MAX],id[MAX],orderid[MAX],orderspercourier[MAX];
+int available_couriers = 0, total_couriers = 0, ongoing_orders = 0, finished_orders = 0,temp,temp2=0;
+float profit=0,value;
+
+
+int main()
+{
+    managermenuprint();
+    return 0;
+}
+
+void managermenuprint(void)
+{
+    system("cls");
+    printf("Welcome to bodo food , manager\n");
+    printf("available couriers = %d\n",available_couriers);
+    printf("total couriers = %d\n",total_couriers);
+    printf("on-going orders = %d\n",ongoing_orders);
+    printf("finished orders = %d\n\n",finished_orders);
+    printf("1) Couriers\n");
+    printf("2) Orders\n");
+    printf("3) Results\n");
+    printf("4) Quit\n");
+    int choise;
+    scanf("%d",&choise);
+     if (choise==1)
+        Couriersmenuprint();
+    else if(choise==2)
+        Ordersmenuprint();
+    else if(choise==3)
+        Resultsmenuprint();
+    else if(choise==4 || choise==0)
+         return 0;
+    else
+        managermenuprint();
+}
+void Couriersmenuprint(void)
+{
+    system("cls");
+    printf("Welcome to bodo food , manager\n");
+    printf("available couriers = %d\n",available_couriers);
+    printf("total couriers = %d\n",total_couriers);
+    printf("on-going orders = %d\n",ongoing_orders);
+    printf("finished orders = %d\n\n",finished_orders);
+    printf("1) Add\n");
+    printf("2) Remove\n");
+    printf("3) Activate\n");
+    printf("4) Deactivate\n");
+    printf("5) Back\n");
+    int choise;
+    scanf("%d",&choise);
+    if(choise==1)
+        addCouriersmenuprint();
+    if(choise==2)
+        RemoveCouriersmenuprint();
+    if(choise==3)
+        ActivateCouriersmenuprint();
+    if(choise==4)
+        DeactivateCouriersmenuprint();
+    if(choise==5)
+        managermenuprint();
+    else
+        Couriersmenuprint();
+
+
+}
+int addCouriersmenuprint(void)
+{
+    system("cls");
+    printf("please enter the number of Couriers\n");
+    int n;
+    scanf("%d",&n);
+    printf("please enter the id and phone numbers of Couriers\n");
+    for(int i=0; i<n; i++)
+    {
+        scanf("%d",&identities [i]);
+        scanf("%d",&phones [i]);
+        orderspercourier[i]=0;
+        status[i]=1;
+        printf("\n");
+        if(phones[i]/pow(10,11)>9 || identities[i]/pow(10,10)>9)
+        {
+            printf("Invalid phone number, please try again");
+            i--;
+            Couriersmenuprint();
+        }
+        else
+        {
+            available_couriers+=1;
+            total_couriers+=1;
+        }
+    }
+    Couriersmenuprint();
+}
+void RemoveCouriersmenuprint(void)
+{
+    system("cls");
+    printf("you want to enter the ID=1 or number=2 sir ? \n  ");
+    int b;
+    int idp;
+    scanf("%d",&b);
+    if (b==1)
+    {
+        printf("please enter the ID of RemovedCourier\n");
+        scanf("%d",&idp);
+        for(int i=0; i<MAX; i++)
+        {
+            if(identities[i]==idp)
+            {
+                identities[i]=NULL;
+                phones[i]=NULL;
+                available_couriers-=1;
+                total_couriers-=1;
+            }
+            else
+                printf("There is no courier with given ID ");
+            sleep(2);
+            Couriersmenuprint();
+        }
+    }
+    if(b==2)
+    {
+        printf("please enter the number of RemovedCourier\n");
+        int a;
+        scanf("%d\n",&a);
+        identities[a]=NULL;
+        phones[a]=NULL;
+        available_couriers-=1;
+        total_couriers-=1;
+    }
+    printf("the selected Courier has been removed\n");
+    sleep(2);
+    Couriersmenuprint();
+
+}
+int ActivateCouriersmenuprint(void)
+{
+    system("cls");
+    status[temp]=1;
+
+}
+int DeactivateCouriersmenuprint(void)
+{
+    system("cls");
+    status[temp]=0;
+
+}
+void Ordersmenuprint(void)
+{
+    system("cls");
+    printf("Welcome to bodo food , manager\n");
+    printf("available couriers = %d\n",available_couriers);
+    printf("total couriers = %d\n",total_couriers);
+    printf("on-going orders = %d\n",ongoing_orders);
+    printf("finished orders = %d\n\n",finished_orders);
+    printf("1) Start\n");
+    printf("2) Stop\n");
+    printf("3) List\n");
+    printf("4) Back\n");
+    int choise;
+    scanf("%d",&choise);
+    if(choise==1)
+        StartOrdersmenuprint();
+    if(choise==2)
+        StopOrdersmenuprint();
+    if(choise==3)
+        ListOrdersmenuprint();
+    if(choise==4)
+        managermenuprint();
+    else
+        Ordersmenuprint();
+
+}
+int StartOrdersmenuprint(void)
+{
+    system("cls");
+    printf("please enter the value of order prifit:");
+    scanf("%f",&value);
+    srand(time(NULL));
+    temp= rand()%MAX+0;
+    if(status[temp]=1)
+    {
+        id[temp2]=identities[temp];
+        phone[temp2]=phones[temp];
+        orderspercourier[temp]+=1;
+        orderid[temp2]=rand()% 9999+0;
+        ongoing_orders+=1;
+        available_couriers-=1;
+        temp2+=1;
+        DeactivateCouriersmenuprint();
+
+
+    }
+    else
+        printf("There is no available courier for new order");
+    sleep(2);
+    Ordersmenuprint();
+}
+void StopOrdersmenuprint(void)
+{
+    system("cls");
+    printf("please enter the finished order number\n");
+    int a;
+    scanf("%d",&a);
+    orderid[temp2]=NULL;
+    ongoing_orders-=1;
+    finished_orders+=1;
+    profit+=value;
+    Ordersmenuprint();
+}
+void ListOrdersmenuprint(void)
+{
+    system("cls");
+    for(int i=1; i<=ongoing_orders; i++)
+    {
+        printf("Order %d)\n",i);
+        printf("Courier ID : %d\n",id[i]);
+        printf("ID : %d\n",orderid[i]);
+        printf("phone : %d\n",phone[i]);
+        sleep(1);
+    }
+    sleep(3);
+    Ordersmenuprint();
+}
+
+void Resultsmenuprint(void)
+{
+    system("cls");
+    printf("Welcome to bodo food , manager\n");
+    printf("available couriers = %d\n",available_couriers);
+    printf("total couriers = %d\n",total_couriers);
+    printf("on-going orders = %d\n",ongoing_orders);
+    printf("finished orders = %d\n\n",finished_orders);
+    printf("1) Profit\n");
+    printf("2) OrdersPerCouriers\n");
+    printf("3) Back\n");
+    int choise;
+    scanf("%d",&choise);
+    if(choise==1)
+        Profitprint();
+    if(choise==2)
+        OrdersPerCouriersprint();
+    if(choise==3)
+        managermenuprint();
+    else
+        Resultsmenuprint();
+
+}
+void Profitprint(void)
+{
+    system("cls");
+    printf("The final amount of profit is %f percent",profit);
+    sleep(3);
+    Resultsmenuprint();
+
+}
+void OrdersPerCouriersprint(void)
+{
+    system("cls");
+    printf("Please enter the number of courier");
+    long long int n;
+    scanf("%d",&n);
+    for(int i=0; i<MAX; i++)
+    {
+        if(identities[i]==n)
+            n=i;
+    }
+
+    printf("The selected courier has  %d finished order",orderspercourier[n]);
+    sleep(3);
+    Resultsmenuprint();
+
+}
